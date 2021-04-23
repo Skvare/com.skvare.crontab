@@ -53,7 +53,7 @@ index 2c0d195862..3a40a0b366 100644
     *   The return value is ignored.
     */
 -  public static function cron($jobManager) {
-+  public static function cron(`&$jobManager) {
++  public static function cron(&$jobManager) {
      return self::singleton()->invoke(['jobManager'],
        $jobManager, self::$_nullObject, self::$_nullObject, self::$_nullObject, self::$_nullObject, self::$_nullObject,
        'civicrm_cron'
