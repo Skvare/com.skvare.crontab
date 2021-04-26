@@ -274,7 +274,7 @@ class CronExpression
      * seconds are irrelevant, and should be called once per minute.
      *
      * @param string|\DateTime $currentTime Relative calculation date
-     * @param string|\Integer $offset Offset time to consider job eligiable
+     * @param string|\Integer $offset Offset time to consider job eligible
      *
      * @return bool Returns TRUE if the cron is due to run or FALSE if not
      */
@@ -282,10 +282,9 @@ class CronExpression
     {
         if ('now' === $currentTime) {
             $currentDate = date('Y-m-d H:i');
-            //\CRM_Core_Error::debug_var('$getTimestamp $currentDate', $currentDate);
             $currentTime = strtotime($currentDate);
         } elseif ($currentTime instanceof DateTime) {
-              $currentDate = clone $currentTime;
+            $currentDate = clone $currentTime;
             // Ensure time in 'current' timezone is used
             $currentDate->setTimezone(new DateTimeZone(date_default_timezone_get()));
             $currentDate = $currentDate->format('Y-m-d H:i');
@@ -305,20 +304,6 @@ class CronExpression
         try {
             $getTimestamp = $this->getNextRunDate($currentDate, 0, true)->getTimestamp();
             $previousGetTimestamp = $this->getPreviousRunDate($currentDate, 0, true)->getTimestamp();
-            /*
-            \CRM_Core_Error::debug_var('$getTimestamp', $getTimestamp);
-            \CRM_Core_Error::debug_var('$previousGetTimestamp', $previousGetTimestamp);
-            \CRM_Core_Error::debug_var('$currentTime', $currentTime);
-            \CRM_Core_Error::debug_var('$offset', $offset);
-            */
-            /*
-            echo "\ngetNextRunDate offset       : ". $offset * 60;
-            echo "\ngetNextRunDate getTimestamp : ". $getTimestamp;
-            echo "\ncurrentTimee                : ". $currentTime;
-            echo "\nTime Difference             : ". ($getTimestamp - $currentTime);
-            echo "\ncurrentTimeTime Difference  : ". ($currentTime - $previousGetTimestamp);
-            echo "\n";
-            */
             return  $getTimestamp >= $currentTime && (($getTimestamp - $currentTime) <= ($offset * 60) || ($currentTime - $previousGetTimestamp) <= ($offset * 60)) ;
         } catch (Exception $e) {
             return false;
@@ -348,7 +333,7 @@ class CronExpression
             $currentDate = new DateTime($currentTime ?: 'now');
             $currentDate->setTimezone(new DateTimeZone(date_default_timezone_get()));
         }
-        //print_r($currentDate);
+
         $currentDate->setTime($currentDate->format('H'), $currentDate->format('i'), 0);
         $nextRun = clone $currentDate;
         $nth = (int) $nth;
