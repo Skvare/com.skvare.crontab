@@ -41,6 +41,8 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
           $lastTime = strtotime($this->last_run);
           $currentDate = date('Y-m-d H:i:s');
           $currentTime = strtotime($currentDate, date('Y-m-d H:i:s'));
+          // add + - time to avoid repeat executing of cron job
+          $crontab_offset += $crontab_offset;
           $lastRunTimeDiff = $currentTime >= $lastTime && (($currentTime - $lastTime) <= ($crontab_offset * 60));
           if ($lastRunTimeDiff) {
             return FALSE;
