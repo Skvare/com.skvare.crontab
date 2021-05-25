@@ -175,8 +175,8 @@ function crontab_civicrm_buildForm($formName, &$form) {
       //'placeholder' => ts('- select -'),
     ];
 
-    $form->add('checkbox', 'crontab_apply', ts('Advance Job Scheduling'));
-    $form->add('select', 'basic_crontab', ts('Schedule Time'), ['' => 'Adavnce Setting'] + $moment, FALSE);
+    $form->add('checkbox', 'crontab_apply', ts('Advanced Job Scheduling'));
+    $form->add('select', 'basic_crontab', ts('Schedule Time'), ['' => 'Advanced Settings'] + $moment, FALSE);
     $form->add('select', 'hour', ts('Hour'), $hours, FALSE, $select2style);
     $form->add('select', 'minute', ts('Minute'), $minutes, FALSE);
     $form->add('select', 'day', ts('Day'), $days, FALSE, $select2style);
