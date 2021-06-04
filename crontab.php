@@ -185,8 +185,7 @@ function crontab_civicrm_buildForm($formName, &$form) {
     $form->add('text', 'crontab_frequency', ts('New Run Frequency'));
     $form->add('text', 'crontab_offset', ts('Run Frequency Time Margin'));
     if ($form->_action & CRM_Core_Action::UPDATE || $form->_action & CRM_Core_Action::VIEW) {
-      $jobExtras = CRM_Crontab_Utils::getSettings($form->_id);
-      CRM_Core_Error::debug_var('$form $jobExtras', $jobExtras);
+      $jobExtras = CRM_Crontab_Utils::getSettings($form->getVar('_id'));
       if (!empty($jobExtras)) {
         $jobExtras['crontab_apply'] = 1;
         if (empty($jobExtras['crontab_offset'])) {
@@ -264,7 +263,7 @@ function crontab_civicrm_postProcess($formName, &$form) {
     $crontab_frequency = $submit['crontab_frequency'];
     $crontab_offset = $submit['crontab_offset'];
     $paramCrontab = [1 => [$submit['crontab_frequency'], 'String'], 2 => [$submit['crontab_offset'], 'String']];
-    if (empty($form->_id) && !empty($submit['crontab_frequency'])) {
+    if (empty($form->getVar('_id')) && !empty($submit['crontab_frequency'])) {
       $result = civicrm_api3('Job', 'get', [
         'sequential' => 1,
         'return' => ["id"],
@@ -282,7 +281,7 @@ function crontab_civicrm_postProcess($formName, &$form) {
       }
     }
     else {
-      $jobID = $form->_id;
+      $jobID = $form->getVar('_id');
       $query = "
       UPDATE civicrm_job
         SET crontab_frequency = %1,
