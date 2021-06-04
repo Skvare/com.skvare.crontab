@@ -464,3 +464,14 @@ function _crontab_civix_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
     $metaDataFolders[] = $settingsDir;
   }
 }
+
+/**
+ * (Delegated) Implements hook_civicrm_entityTypes().
+ *
+ * Find any *.entityType.php files, merge their content, and return.
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
+ */
+function _crontab_civix_civicrm_entityTypes(&$entityTypes) {
+  $entityTypes = array_merge($entityTypes, []);
+}
