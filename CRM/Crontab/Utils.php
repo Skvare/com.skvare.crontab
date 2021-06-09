@@ -217,16 +217,22 @@ class CRM_Crontab_Utils {
   public static function getSettings($jobID) {
     $result = civicrm_api3('Job', 'getsingle', [
       'sequential' => 1,
-      'return' => ["crontab_frequency", "crontab_offset"],
+      'return' => ["crontab_frequency", "crontab_offset", "crontab_hour_range"],
       'id' => $jobID,
     ]);
     unset($result['id']);
     if (!empty($result['crontab_frequency'])) {
       $jobParts = explode(' ', trim($result['crontab_frequency']));
 
-      //echo '<pre>'; print_r($jobParts); exit;
-      $part = ['minute', 'hour', 'day', 'month', 'weekday'];
-      $result = array_merge($result, array_combine($part, $jobParts));
+      $parts = ['minute', 'hour', 'day', 'month', 'weekday'];
+      $result = array_merge($result, array_combine($parts, $jobParts));
+      foreach ($result as $part => &$value) {
+        if (strpos($value, '-') !== FALSE && in_array($part, $parts)) {
+          $value = preg_replace_callback('/(\d+)-(\d+)/', function ($m) {
+            return implode(',', range($m[1], $m[2]));
+          }, $value);
+        }
+      }
     }
 
     return $result;

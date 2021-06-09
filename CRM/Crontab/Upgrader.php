@@ -132,4 +132,13 @@ class CRM_Crontab_Upgrader extends CRM_Crontab_Upgrader_Base {
   //   return TRUE;
   // }
 
+  public function upgrade_1001() {
+    if (!CRM_Core_BAO_SchemaHandler::checkIfFieldExists('civicrm_job', 'crontab_hour_range')) {
+      $this->ctx->log->info('Applying crontab update 1001.  Adding crontab_hour_range to the } table.');
+      CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_job ADD crontab_hour_range TINYINT(4) NULL DEFAULT NULL COMMENT 'Use Hour range to execute job'");
+    }
+
+    return TRUE;
+  }
+
 }

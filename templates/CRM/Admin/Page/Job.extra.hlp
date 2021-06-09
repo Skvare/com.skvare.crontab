@@ -4,3 +4,8 @@
     <p>{ts}Provide margin in number of minutes based on what is crontab frequence of main civicrm Job. If empty we will use 5 minute as default margin.{/ts}</p>
     <p>{ts}So using these setting, when civicrm run the job we allow to run this schedueld job before or after said time in 'Adavnce Run frequency'.{/ts}</p>
 {/htxt}
+
+{htxt id="id-crontab_hour_range"}
+    <p>{ts}If you want to use the hours range to execute scheduled jobs for a specific period then select plain hours numbers continuously and then check this box.{/ts}</p>
+    <p>{ts}Example : Run scheduled job every 10 minutes from midnight to morning 7 AM , final crontab expression is like '*/10 0-7 * * *'. If you do not select this range checkbox then the scheduled job will execute every 10 minutes for the entire day then it also runs every hour from midnight to 7 AM morning, the expression is like '*/10 0,1,2,3,4,5,6,7 * * *'.{/ts}</p>
+{/htxt}

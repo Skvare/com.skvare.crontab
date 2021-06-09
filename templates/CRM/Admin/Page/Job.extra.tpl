@@ -15,7 +15,17 @@
         if (!def_value)
             def_value = "*";
 
-        var str = CRM.$("select[name='"+array_name+"'] :selected").map(function(){return this.value;}).get().join(sep);
+        var str = CRM.$("select[name='" + array_name + "'] :selected").map(function () {
+            return this.value;
+        }).get();
+        if (sep == '-' && str.length > 1) {
+            var firstItem = str[0];
+            var lastItem = str[str.length - 1];
+            str = firstItem + '-' + lastItem;
+        }
+        else {
+            var str = str.join(sep);
+        }
         if (!str)
             str = def_value;
 
@@ -40,8 +50,12 @@
 
         } else {
             // handle advanced crontab setup
+            var hrSep = ',';
+            if (CRM.$('#crontab_hour_range').prop("checked") == true) {
+                hrSep = '-';
+            }
             cron += getSelectedSeparatedBy('minute') + " ";
-            cron += getSelectedSeparatedBy('hour[]') + " ";
+            cron += getSelectedSeparatedBy('hour[]', hrSep) + " ";
             cron += getSelectedSeparatedBy('day[]') + " ";
             cron += getSelectedSeparatedBy('month[]') + " ";
             cron += getSelectedSeparatedBy('weekday[]') + " ";
@@ -79,7 +93,7 @@
 
         regenerateCronFormat();
         crontabshowhide();
-        CRM.$('#hour, #minute, #day, #month, #weekday, #basic_crontab').on('change', regenerateCronFormat);
+        CRM.$('#hour, #minute, #day, #month, #weekday, #basic_crontab, #crontab_hour_range').on('change', regenerateCronFormat);
         CRM.$('#crontab_apply').on('change', crontabshowhide);
         CRM.$('#crontab_frequency').attr("readonly", "readonly");
     });
@@ -100,7 +114,10 @@
                 </tr>
                 <tr>
                     <td style="vertical-align: middle;">{$form.minute.html}</td>
-                    <td>{$form.hour.html}</td>
+                    <td>{$form.hour.html}
+                        <br/>{$form.crontab_hour_range.label}:
+                        {$form.crontab_hour_range.html}{help id="id-crontab_hour_range" file="CRM/Admin/Page/Job.extra.hlp"}
+                    </td>
                     <td>{$form.day.html}</td>
                     <td>{$form.month.html}</td>
                     <td>{$form.weekday.html}</td>

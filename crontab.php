@@ -178,6 +178,7 @@ function crontab_civicrm_buildForm($formName, &$form) {
     $form->add('checkbox', 'crontab_apply', ts('Advanced Job Scheduling'));
     $form->add('select', 'basic_crontab', ts('Schedule Time'), ['' => 'Advanced Settings'] + $moment, FALSE);
     $form->add('select', 'hour', ts('Hour'), $hours, FALSE, $select2style);
+    $form->add('checkbox', 'crontab_hour_range', ts('Use Hour Range'));
     $form->add('select', 'minute', ts('Minute'), $minutes, FALSE);
     $form->add('select', 'day', ts('Day'), $days, FALSE, $select2style);
     $form->add('select', 'month', ts('Month'), $month, FALSE, $select2style);
@@ -190,6 +191,9 @@ function crontab_civicrm_buildForm($formName, &$form) {
         $jobExtras['crontab_apply'] = 1;
         if (empty($jobExtras['crontab_offset'])) {
           $jobExtras['crontab_offset'] = 5;
+        }
+        if (!empty($jobExtras['crontab_hour_range'])) {
+          $jobExtras['crontab_hour_range'] = 1;
         }
         $form->setDefaults($jobExtras);
       }
@@ -216,6 +220,14 @@ function crontab_civicrm_validateForm($formName, &$fields, &$files, &$form, &$er
       }
       if (empty($fields['weekday'])) {
         $errors['weekday'] = ts("Day of week is required field.");
+      }
+
+      if (!empty($fields['crontab_hour_range']) && !empty($fields['hour'])) {
+        $nonints = preg_grep('/\D/', $fields['hour']);
+
+        if (!empty($nonints)) {
+          $errors['hour'] = ts("For Hour range select only plain hours.");
+        }
       }
     }
   }
@@ -248,6 +260,16 @@ function crontab_civicrm_entityTypes(&$entityTypes) {
       'bao' => 'CRM_Core_BAO_Job',
       'localizable' => 0,
     ];
+    $fields['crontab_hour_range'] = [
+      'name' => 'crontab_hour_range',
+      'type' => CRM_Utils_Type::T_BOOLEAN,
+      'title' => ts('Hour Range'),
+      'description' => 'Use Hour range to execute job',
+      'table_name' => 'civicrm_job',
+      'entity' => 'Job',
+      'bao' => 'CRM_Core_BAO_Job',
+      'localizable' => 0,
+    ];
   };
 }
 
@@ -262,7 +284,11 @@ function crontab_civicrm_postProcess($formName, &$form) {
     }
     $crontab_frequency = $submit['crontab_frequency'];
     $crontab_offset = $submit['crontab_offset'];
-    $paramCrontab = [1 => [$submit['crontab_frequency'], 'String'], 2 => [$submit['crontab_offset'], 'String']];
+    $paramCrontab = [
+      1 => [$submit['crontab_frequency'], 'String'],
+      2 => [$submit['crontab_offset'], 'String'],
+      3 => [$submit['crontab_hour_range'], 'Boolean'],
+      ];
     if (empty($form->getVar('_id')) && !empty($submit['crontab_frequency'])) {
       $result = civicrm_api3('Job', 'get', [
         'sequential' => 1,
@@ -274,7 +300,8 @@ function crontab_civicrm_postProcess($formName, &$form) {
         $query = "
         UPDATE civicrm_job
         SET crontab_frequency = %1,
-            crontab_offset = %2
+            crontab_offset = %2,
+            crontab_hour_range = %3
         WHERE id = $jobID
         ";
         CRM_Core_DAO::executeQuery($query, $paramCrontab);
@@ -285,7 +312,8 @@ function crontab_civicrm_postProcess($formName, &$form) {
       $query = "
       UPDATE civicrm_job
         SET crontab_frequency = %1,
-            crontab_offset = %2
+            crontab_offset = %2,
+            crontab_hour_range = %3
       WHERE id = $jobID
       ";
       CRM_Core_DAO::executeQuery($query, $paramCrontab);
