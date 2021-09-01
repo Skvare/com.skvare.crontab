@@ -175,10 +175,10 @@ function crontab_civicrm_buildForm($formName, &$form) {
       //'placeholder' => ts('- select -'),
     ];
 
-    $form->add('checkbox', 'crontab_apply', ts('Advanced Job Scheduling'));
+    $form->add('advcheckbox', 'crontab_apply', ts('Advanced Job Scheduling'));
     $form->add('select', 'basic_crontab', ts('Schedule Time'), ['' => 'Advanced Settings'] + $moment, FALSE);
     $form->add('select', 'hour', ts('Hour'), $hours, FALSE, $select2style);
-    $form->add('checkbox', 'crontab_hour_range', ts('Use Hour Range'));
+    $form->add('advcheckbox', 'crontab_hour_range', ts('Use Hour Range'));
     $form->add('select', 'minute', ts('Minute'), $minutes, FALSE);
     $form->add('select', 'day', ts('Day'), $days, FALSE, $select2style);
     $form->add('select', 'month', ts('Month'), $month, FALSE, $select2style);
@@ -282,6 +282,9 @@ function crontab_civicrm_postProcess($formName, &$form) {
     if (empty($submit['crontab_apply'])) {
       return;
     }
+    $submit['crontab_offset'] = !empty($submit['crontab_offset']) ? $submit['crontab_offset']: '5';
+    $submit['crontab_hour_range'] = !empty($submit['crontab_hour_range']) ? $submit['crontab_hour_range'] : 0;
+
     $crontab_frequency = $submit['crontab_frequency'];
     $crontab_offset = $submit['crontab_offset'];
     $paramCrontab = [
