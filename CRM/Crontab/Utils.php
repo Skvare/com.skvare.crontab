@@ -5,7 +5,6 @@ class CRM_Crontab_Utils {
 
   public static function basic() {
     $list = [
-     // "9" => "Every minute",
       "10" => "Every 5 minutes",
       "11" => "Every 10 minutes",
       "1" => "Every 15 minutes",
@@ -17,8 +16,10 @@ class CRM_Crontab_Utils {
       "7" => "Every week",
       "8" => "Every month",
     ];
+
     return $list;
   }
+
   public static function hours() {
     $list = [
       "*" => "Every hour",
@@ -217,7 +218,9 @@ class CRM_Crontab_Utils {
   public static function getSettings($jobID) {
     $result = civicrm_api3('Job', 'getsingle', [
       'sequential' => 1,
-      'return' => ["crontab_frequency", "crontab_offset", "crontab_hour_range"],
+      'return' => ["crontab_apply", "crontab_frequency", "crontab_offset",
+        "crontab_hour_range", "crontab_date_time_start", 'crontab_date_time_end',
+        'crontab_time_from', 'crontab_time_to'],
       'id' => $jobID,
     ]);
     unset($result['id']);
@@ -238,18 +241,18 @@ class CRM_Crontab_Utils {
     return $result;
   }
 
-   public static function _getJobs() {
-     $jobs = [];
-     $dao = new CRM_Core_DAO_Job();
-     $dao->orderBy('name');
-     $dao->domain_id = CRM_Core_Config::domainID();
-     $dao->find();
-     while ($dao->fetch()) {
-       $temp = [];
-       CRM_Core_DAO::storeValues($dao, $temp);
-       $jobs[$dao->id] = new CRM_Crontab_ScheduledJob($temp);
-     }
+  public static function _getJobs() {
+    $jobs = [];
+    $dao = new CRM_Core_DAO_Job();
+    $dao->orderBy('name');
+    $dao->domain_id = CRM_Core_Config::domainID();
+    $dao->find();
+    while ($dao->fetch()) {
+      $temp = [];
+      CRM_Core_DAO::storeValues($dao, $temp);
+      $jobs[$dao->id] = new CRM_Crontab_ScheduledJob($temp);
+    }
 
-     return $jobs;
-   }
+    return $jobs;
+  }
 }

@@ -29,6 +29,31 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
     }
     // Custom Code start
     if ($this->crontab_frequency && $this->crontab_frequency != '* * * * *') {
+
+      $now = date('YmdHis');
+      // check start date of job less than the current datetime.
+      if (!empty($this->crontab_date_time_start)) {
+        $startDate = CRM_Utils_Date::processDate($this->crontab_date_time_start);
+        // start date should be before current date
+        if ($startDate && $startDate <= $now) {
+          return TRUE;
+        }
+
+        return FALSE;
+      }
+
+      // check end date of job is greater than current datetime
+      if (!empty($this->crontab_date_time_end)) {
+        $endDate = CRM_Utils_Date::processDate($this->crontab_date_time_end);
+        // end date should be greater than current date
+        if ($endDate && $endDate >= $now) {
+          return TRUE;
+        }
+
+        return FALSE;
+      }
+
+
       $cron = Cron\CronExpression::factory($this->crontab_frequency);
       // check cron is Due to Run.
       $isDue = $cron->isDue('now', $this->crontab_offset);
@@ -45,6 +70,16 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
           $crontab_offset += $crontab_offset;
           $lastRunTimeDiff = $currentTime >= $lastTime && (($currentTime - $lastTime) <= ($crontab_offset * 60));
           if ($lastRunTimeDiff) {
+            return FALSE;
+          }
+        }
+
+        // check current time is within specified time range.
+        if (!empty($this->crontab_time_from) && !empty($this->crontab_time_to)) {
+          // convert '21:00:00' to '210000'
+          $crontab_time_from = CRM_Utils_Date::isoToMysql($this->crontab_time_from);
+          $crontab_time_to = CRM_Utils_Date::isoToMysql($this->crontab_time_to);
+          if (!$this->isWithinTimeRange($crontab_time_from, $crontab_time_to)) {
             return FALSE;
           }
         }
@@ -99,5 +134,31 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
     return ($now >= $nextTime);
   }
 
+  /**
+   * Function to check current time is within specified time range.
+   *
+   * @param $start
+   * @param $end
+   * @return bool
+   */
+  function isWithinTimeRange($start, $end) {
+    // Get current time in hour minute second format.
+    $now = date("His");
+
+    // time frame rolls over midnight
+    if ($start > $end) {
+      // if current time is past start time or before end time
+      if ($now >= $start || $now < $end) {
+        return TRUE;
+      }
+    }
+
+    // else time frame is within same day check if we are between start and end
+    elseif ($now >= $start && $now <= $end) {
+      return TRUE;
+    }
+
+    return FALSE;
+  }
 
 }
