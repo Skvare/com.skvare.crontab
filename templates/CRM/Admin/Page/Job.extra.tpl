@@ -172,7 +172,7 @@
     <tr class="crm-job-form-block-name_crontab_apply" style="">
         <td class="label">{$form.crontab_apply.label}</td>
         <td>{$form.crontab_apply.html}<br />
-            <div class="description">{ts}Once you enable this setting, 'Run frequency' setting never get used.{/ts}</div>
+            <div class="description">{ts}Once you enable this setting, 'Run frequency' setting never gets used.{/ts}</div>
         </td>
     </tr>
     <tr class="crm-job-form-block-name_basic_crontab" style="">
