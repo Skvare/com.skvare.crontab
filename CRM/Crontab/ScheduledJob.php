@@ -35,22 +35,18 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
       if (!empty($this->crontab_date_time_start)) {
         $startDate = CRM_Utils_Date::processDate($this->crontab_date_time_start);
         // start date should be before current date
-        if ($startDate && $startDate <= $now) {
-          return TRUE;
+        if ($startDate && $startDate >= $now) {
+          return FALSE;
         }
-
-        return FALSE;
       }
 
       // check end date of job is greater than current datetime
       if (!empty($this->crontab_date_time_end)) {
         $endDate = CRM_Utils_Date::processDate($this->crontab_date_time_end);
         // end date should be greater than current date
-        if ($endDate && $endDate >= $now) {
-          return TRUE;
+        if ($endDate && $endDate <= $now) {
+          return FALSE;
         }
-
-        return FALSE;
       }
 
 
