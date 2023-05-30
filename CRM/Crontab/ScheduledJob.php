@@ -1,6 +1,6 @@
 <?php
 //use Cron;
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
 
