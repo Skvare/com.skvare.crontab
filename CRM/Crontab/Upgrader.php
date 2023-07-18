@@ -83,6 +83,9 @@ class CRM_Crontab_Upgrader extends CRM_Crontab_Upgrader_Base {
         CRM_Core_DAO::executeQuery($query, [], TRUE, NULL, FALSE, FALSE);
       }
     }
+    // Update checkbox for existing records.
+    $sql = 'UPDATE civicrm_job SET crontab_apply = 1 WHERE crontab_frequency IS NOT NULL';
+    CRM_Core_DAO::executeQuery($sql, [], TRUE, NULL, FALSE, FALSE);
 
     return TRUE;
   }
