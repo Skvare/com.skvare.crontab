@@ -56,18 +56,36 @@ class CRM_Crontab_Upgrader extends CRM_Crontab_Upgrader_Base {
   // }
 
   /**
-   * Example: Run a couple simple queries.
+   * Add new columns.
    *
    * @return TRUE on success
    * @throws Exception
    */
-  // public function upgrade_4200() {
-  //   $this->ctx->log->info('Applying update 4200');
-  //   CRM_Core_DAO::executeQuery('UPDATE foo SET bar = "whiz"');
-  //   CRM_Core_DAO::executeQuery('DELETE FROM bang WHERE willy = wonka(2)');
-  //   return TRUE;
-  // }
+  public function upgrade_1100() {
+    $this->ctx->log->info('Adding new columns');
+    $fields = [
+      'crontab_apply' => 'TINYINT(4) NULL DEFAULT NULL COMMENT "Is Crontab functionality enabled?"',
+      'crontab_hour_range' => 'TINYINT(4) NULL DEFAULT NULL COMMENT "Use Hour range to execute job"',
+      'crontab_day_range' => 'TINYINT(4) NULL DEFAULT NULL COMMENT "Use Day range to execute job"',
+      'crontab_date_time_start' => 'datetime DEFAULT NULL COMMENT "When to Start Job Execution"',
+      'crontab_date_time_end' => 'datetime DEFAULT NULL COMMENT "When to Start Job Execution"',
+      'crontab_time_from' => 'time DEFAULT NULL',
+      'crontab_time_to' => 'time DEFAULT NULL'
+    ];
+    $queries = [];
+    foreach ($fields as $column => $properties) {
+      if (!CRM_Core_BAO_SchemaHandler::checkIfFieldExists('civicrm_job', $column, FALSE)) {
+        $queries[$column] = "ALTER TABLE `civicrm_job` ADD COLUMN `$column` $properties";
+      }
+    }
+    if (!empty($queries)) {
+      foreach ($queries as $query) {
+        CRM_Core_DAO::executeQuery($query, [], TRUE, NULL, FALSE, FALSE);
+      }
+    }
 
+    return TRUE;
+  }
 
   /**
    * Example: Run an external SQL script.
