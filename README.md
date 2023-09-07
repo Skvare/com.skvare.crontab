@@ -2,9 +2,9 @@
 
 ![Screenshot](/images/screenshot.gif)
 
-This Extension provides advanced Job scheduling functionality.
+This extension provides advanced job scheduling functionality.
 
-Admin can set Linux CRONTAB-like expressions for each scheduled job.
+Admins can set Linux CRONTAB-like expressions for each scheduled job.
 
 
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
@@ -42,14 +42,12 @@ cv en crontab
 
 * Go to Scheduled job listing -> Edit any job -> select checkbox `Advanced Job
  Scheduling`, then additional details get displayed
-* Set you Job frequency either using Basic Setting or Advanced Setting.
+* Set your job frequency either using Basic Setting or the Advanced Setting.
 * Set `Run Frequency Time Margin` for at least 5 min (default value is 5)
-    > * We are using Linux Cron tab like format to run the cron job on 
-    specific time, but this is not actual crontab, we are totally relying on CiviCRM Job, CiviCRM job may be executed by crontab like feature.
-    > * We may run a CiviCRM job every 5 or 10 minutes. But this will not be 
-    executed on set scheduled time. So we have to give some relaxation using this margin setting.
-    > * Provide margin in number of minutes based on what is crontab frequency of main civicrm Job. If empty we will use 5 minute as the default margin.
-* Set scheduled start and end date.
-    > * The Scheduled job only gets executed during the specified date.
-* Set Active Time of each scheduled job.
-    > * We can run scheduled jobs every 30 minutes but only execute in business hours from 9 AM to 5 PM, Or run after business hours from 8 PM to next morning 7 AM..
+    > * We are using the Linux Cron tab-like format to run the cron job at a specific time, but this is not an actual crontab; we are totally relying on CiviCRM Job. CiviCRM jobs are executed by crontab-like features.
+    > * We may run a CiviCRM job every 5 or 10 minutes. But this will not be executed at the scheduled time. So we have to give some relaxation using this margin setting.
+    > * Provide a margin in the number of minutes based on the crontab frequency of the main civicrm job. If empty, we will use 5 minutes as the default margin.
+* Set a scheduled start and end date.
+    > * The scheduled job only gets executed on the specified date.
+* Set the active time of each scheduled job.
+    > * We can run scheduled jobs every 30 minutes but only execute them in business hours from 9 a.m. to 5 p.m., or run them after business hours from 8 p.m. to the next morning at 7 a.m.
