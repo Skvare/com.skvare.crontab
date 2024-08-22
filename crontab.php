@@ -164,7 +164,7 @@ function crontab_civicrm_validateForm($formName, &$fields, &$files, &$form, &$er
  * Implements hook_civicrm_apiWrappers().
  */
 function crontab_civicrm_entityTypes(&$entityTypes) {
-  $entityTypes['CRM_Core_DAO_Job']['fields_callback'][]
+  $entityTypes['Job']['fields_callback'][]
     = function ($class, &$fields) {
     $fields['crontab_apply'] = [
       'name' => 'crontab_apply',
