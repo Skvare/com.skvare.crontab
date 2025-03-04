@@ -34,32 +34,6 @@ function crontab_civicrm_enable() {
 
 // --- Functions below this ship commented out. Uncomment as required. ---
 
-/**
- * Implements hook_civicrm_preProcess().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_preProcess
- */
-//function crontab_civicrm_preProcess($formName, &$form) {
-//
-//}
-
-/**
- * Implements hook_civicrm_navigationMenu().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
- */
-//function crontab_civicrm_navigationMenu(&$menu) {
-//  _crontab_civix_insert_navigation_menu($menu, 'Mailings', array(
-//    'label' => E::ts('New subliminal message'),
-//    'name' => 'mailing_subliminal_message',
-//    'url' => 'civicrm/mailing/subliminal',
-//    'permission' => 'access CiviMail',
-//    'operator' => 'OR',
-//    'separator' => 0,
-//  ));
-//  _crontab_civix_navigationMenu($menu);
-//}
-
 function crontab_civicrm_buildForm($formName, &$form) {
   if ($formName == 'CRM_Admin_Form_Job') {
     $month = CRM_Crontab_Utils::month();
@@ -351,8 +325,8 @@ function crontab_civicrm_postProcess($formName, &$form) {
         $setClause[] = "$n = %{$v}";
       }
       $setClause = implode(',', $setClause);
-      $query = "$sqlOP 
-        SET $setClause 
+      $query = "$sqlOP
+        SET $setClause
         $where";
       /*
       CRM_Core_Error::debug_var('$query', $query);
@@ -365,6 +339,8 @@ function crontab_civicrm_postProcess($formName, &$form) {
   }
 }
 
+/*
 function crontab_civicrm_cron($jobManager) {
   $jobManager->jobs = CRM_Crontab_Utils::_getJobs();
 }
+*/

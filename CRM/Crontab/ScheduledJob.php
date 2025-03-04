@@ -1,7 +1,12 @@
 <?php
-//use Cron;
-require_once __DIR__ . '/../../vendor/autoload.php';
 
+// Use Cron.
+use CRM_Crontab_ExtensionUtil as E;
+require E::path('vendor/autoload.php');
+
+/**
+ * Class CRM_Crontab_ScheduledJob.
+ */
 class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
 
   public $version = 3;
@@ -41,9 +46,9 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
         return FALSE;
       }
     }
-    // Custom Code start
-    if ($this->crontab_apply && $this->crontab_frequency && $this->crontab_frequency != '* * * * *') {
 
+    // Custom Code start.
+    if ($this->crontab_apply && $this->crontab_frequency && $this->crontab_frequency != '* * * * *') {
       $now = date('YmdHis');
       // check start date of job less than the current datetime.
       if (!empty($this->crontab_date_time_start)) {
@@ -99,9 +104,8 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
 
       return FALSE;
     }
-    // Custom Code End
-
-    // run if it was never run
+    // Custom Code End.
+    // Run if it was never run.
     if (empty($this->last_run)) {
       return TRUE;
     }
@@ -149,9 +153,10 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
    *
    * @param $start
    * @param $end
+   *
    * @return bool
    */
-  function isWithinTimeRange($start, $end) {
+  public function isWithinTimeRange($start, $end) {
     // Get current time in hour minute second format.
     $now = date("His");
 

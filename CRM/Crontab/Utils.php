@@ -3,7 +3,13 @@ use CRM_Crontab_ExtensionUtil as E;
 
 class CRM_Crontab_Utils {
 
-  public static function basic() {
+  /**
+   * Basic frequency.
+   *
+   * @return string[]
+   *   Basic frequency list.
+   */
+  public static function basic(): array {
     $list = [
       "10" => "Every 5 minutes",
       "11" => "Every 10 minutes",
@@ -20,7 +26,13 @@ class CRM_Crontab_Utils {
     return $list;
   }
 
-  public static function hours() {
+  /**
+   * Hours.
+   *
+   * @return string[]
+   *   Hour list.
+   */
+  public static function hours(): array {
     $list = [
       "*" => "Every hour",
       "*/2" => "Every 2 hours",
@@ -58,7 +70,13 @@ class CRM_Crontab_Utils {
     return $list;
   }
 
-  public static function minute() {
+  /**
+   * Minutes.
+   *
+   * @return string[]
+   *   Minute list.
+   */
+  public static function minute(): array {
     $list = [
       "*" => "Every minute",
       "*/2" => "Every 2 minutes",
@@ -134,7 +152,13 @@ class CRM_Crontab_Utils {
     return $list;
   }
 
-  public static function days() {
+  /**
+   * Days.
+   *
+   * @return string[]
+   *   Day list.
+   */
+  public static function days(): array {
     $list = [
       "*" => "Every day",
       "*/2" => "Every 2 days",
@@ -177,7 +201,13 @@ class CRM_Crontab_Utils {
     return $list;
   }
 
-  public static function month() {
+  /**
+   * Months.
+   *
+   * @return string[]
+   *   Month list.
+   */
+  public static function month(): array {
     $list = [
       "*" => "Every month",
       "*/2" => "Every 2 months",
@@ -200,7 +230,13 @@ class CRM_Crontab_Utils {
     return $list;
   }
 
-  public static function weekdays() {
+  /**
+   * Weekdays.
+   *
+   * @return string[]
+   *   Weekdays.
+   */
+  public static function weekdays(): array {
     $list = [
       "*" => "Every day",
       "1" => "Monday",
@@ -215,12 +251,24 @@ class CRM_Crontab_Utils {
     return $list;
   }
 
-  public static function getSettings($jobID) {
+  /**
+   * Function to get job settings.
+   *
+   * @param int $jobID
+   *   Job ID.
+   *
+   * @return array|int
+   *   Job settings.
+   *
+   * @throws CRM_Core_Exception
+   */
+  public static function getSettings(int $jobID): array|int {
     $result = civicrm_api3('Job', 'getsingle', [
       'sequential' => 1,
       'return' => ["crontab_apply", "crontab_frequency", "crontab_offset",
         "crontab_hour_range", "crontab_date_time_start", 'crontab_date_time_end',
-        'crontab_time_from', 'crontab_time_to'],
+        'crontab_time_from', 'crontab_time_to',
+      ],
       'id' => $jobID,
     ]);
     unset($result['id']);
@@ -241,6 +289,12 @@ class CRM_Crontab_Utils {
     return $result;
   }
 
+  /**
+   * Get job list.
+   *
+   * @return array
+   *   Jobs list.
+   */
   public static function _getJobs() {
     $jobs = [];
     $dao = new CRM_Core_DAO_Job();
@@ -255,4 +309,5 @@ class CRM_Crontab_Utils {
 
     return $jobs;
   }
+
 }
