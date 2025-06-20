@@ -14,8 +14,8 @@
     <url desc="Support">https://github.com/Skvare/com.skvare.crontab</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate>2025-03-04</releaseDate>
-  <version>2.0</version>
+  <releaseDate>2025-06-20</releaseDate>
+  <version>2.1</version>
   <compatibility>
     <ver>5.81</ver>
   </compatibility>
