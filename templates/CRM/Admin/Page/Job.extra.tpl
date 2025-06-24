@@ -141,67 +141,93 @@
                     <th>{ts}Day of week{/ts}</th>
                 </tr>
                 <tr>
+                  {if !empty($form.minute.html)}
                     <td style="vertical-align: middle;">{$form.minute.html}</td>
+                  {/if}
+                   {if !empty($form.hour.html)}
                     <td>{$form.hour.html}
                         <br/>{$form.crontab_hour_range.label}:
                         {$form.crontab_hour_range.html}
                         {help id="id-crontab_hour_range"
-                        file="CRM/Admin/Page/Job.extra.hlp" title=$form.crontab_hour_range.label}
+                        file="CRM/Admin/Page/Job.hlp" title=$form.crontab_hour_range.label}
                     </td>
+                    {/if}
+                  {if !empty($form.day.html)}
                     <td>{$form.day.html}
                         <br/>{$form.crontab_day_range.label}:
                         {$form.crontab_day_range.html}
                         {help id="id-crontab_day_range"
-                        file="CRM/Admin/Page/Job.extra.hlp" title=$form.crontab_day_range.label}
+                        file="CRM/Admin/Page/Job.hlp" title=$form.crontab_day_range.label}
                     </td>
+                  {/if}
+                  {if !empty($form.month.html)}
                     <td>{$form.month.html}</td>
+                  {/if}
+                  {if !empty($form.weekday.html)}
                     <td>{$form.weekday.html}</td>
+                  {/if}
                 </tr>
             </table>
         </td>
     </tr>
+  {if !empty($form.crontab_frequency.html)}
     <tr class="crm-job-form-block-name_crontab_frequency" style="">
         <td class="label">{$form.crontab_frequency.label}</td>
         <td>{$form.crontab_frequency.html|crmAddClass:huge40}</td>
     </tr>
+  {/if}
+  {if !empty($form.crontab_offset.html)}
     <tr class="crm-job-form-block-name_crontab_frequency_offset" style="">
         <td class="label">{$form.crontab_offset.label}</td>
-        <td>{$form.crontab_offset.html} {help id="id-crontab_offset" file="CRM/Admin/Page/Job.extra.hlp"}
+        <td>{$form.crontab_offset.html} {help id="id-crontab_offset" file="CRM/Admin/Page/Job.hlp"}
         </td>
     </tr>
+  {/if}
+  {if !empty($form.crontab_apply.html)}
     <tr class="crm-job-form-block-name_crontab_apply" style="">
         <td class="label">{$form.crontab_apply.label}</td>
         <td>{$form.crontab_apply.html}<br />
             <div class="description">{ts}Once you enable this setting, 'Run frequency' setting never gets used.{/ts}</div>
         </td>
     </tr>
+  {/if}
+    {if !empty($form.basic_crontab.html)}
     <tr class="crm-job-form-block-name_basic_crontab" style="">
         <td class="label">{$form.basic_crontab.label}</td>
         <td>{$form.basic_crontab.html}
         </td>
     </tr>
+    {/if}
+  {if !empty($form.crontab_date_time_start.html)}
     <tr class="crm-job-form-block-name_crontab_date_time_start" style="">
         <td class="label">{$form.crontab_date_time_start.label}</td>
         <td>{$form.crontab_date_time_start.html}
-            {help id="id-crontab_date_time_start" file="CRM/Admin/Page/Job.extra.hlp" title=$form.crontab_date_time_start.label}
+            {help id="id-crontab_date_time_start" file="CRM/Admin/Page/Job.hlp" title=$form.crontab_date_time_start.label}
         </td>
     </tr>
+  {/if}
+  {if !empty($form.crontab_date_time_end.html)}
     <tr class="crm-job-form-block-name_crontab_date_time_end" style="">
         <td class="label">{$form.crontab_date_time_end.label}</td>
         <td>{$form.crontab_date_time_end.html}
-            {help id="id-crontab_date_time_end" file="CRM/Admin/Page/Job.extra.hlp" title=$form.crontab_date_time_end.label}</td>
+            {help id="id-crontab_date_time_end" file="CRM/Admin/Page/Job.hlp" title=$form.crontab_date_time_end.label}</td>
     </tr>
+  {/if}
+  {if !empty($form.crontab_time_from.html)}
     <tr class="crm-job-form-block-name_crontab_time_from" style="">
         <td class="label">{$form.crontab_time_from.label}</td>
         <td>{$form.crontab_time_from.html}
-            {help id="id-crontab_time_from" file="CRM/Admin/Page/Job.extra.hlp" title=$form.crontab_time_from.label}</td>
+            {help id="id-crontab_time_from" file="CRM/Admin/Page/Job.hlp" title=$form.crontab_time_from.label}</td>
         </td>
     </tr>
+  {/if}
+  {if !empty($form.crontab_time_to.html)}
     <tr class="crm-job-form-block-name_crontab_time_to" style="">
         <td class="label">{$form.crontab_time_to.label}</td>
         <td>{$form.crontab_time_to.html}
-            {help id="id-crontab_time_from" file="CRM/Admin/Page/Job.extra.hlp" title=$form.crontab_time_to.label}</td>
+            {help id="id-crontab_time_from" file="CRM/Admin/Page/Job.hlp" title=$form.crontab_time_to.label}</td>
         </td>
     </tr>
+  {/if}
 </table>
 </div>
