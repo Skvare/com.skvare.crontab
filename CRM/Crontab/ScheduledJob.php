@@ -14,6 +14,18 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
 
   public $crontab_frequency = '';
 
+  public $crontab_date_time_start = '';
+
+  public $crontab_date_time_end = '';
+
+  public $crontab_time_from = '';
+
+  public $crontab_time_to = '';
+
+  public $crontab_apply = '';
+
+  public $crontab_offset = '';
+
   /**
    * @return bool
    */
@@ -30,7 +42,7 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
       }
     }
     // Custom Code start
-    if ($this->crontab_frequency && $this->crontab_frequency != '* * * * *') {
+    if ($this->crontab_apply && $this->crontab_frequency && $this->crontab_frequency != '* * * * *') {
 
       $now = date('YmdHis');
       // check start date of job less than the current datetime.
