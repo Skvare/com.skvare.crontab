@@ -69,7 +69,7 @@
      */
     function crontabshowhide() {
         if (CRM.$('#crontab_apply').prop("checked") == true) {
-            CRM.$('.crm-job-form-block-name_crontab_frequency_offset').show();
+            CRM.$('.crm-job-form-block-name_crontab_frequency_offset').hide();
             CRM.$('.crm-job-form-block-name_crontab_frequency').show();
             CRM.$('.crm-job-form-block-name_crontab').show();
             CRM.$('.crm-job-form-block-name_basic_crontab').show();
