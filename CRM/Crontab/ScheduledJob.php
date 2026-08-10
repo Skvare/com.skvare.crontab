@@ -65,7 +65,7 @@ class CRM_Crontab_ScheduledJob extends CRM_Core_ScheduledJob {
     // ====================================================================
     // Allows fine-grained scheduling using cron expressions (e.g., "0 9 * * 1-5")
     // Also supports date/time windows and intra-day time range restrictions
-    if ($this->crontab_apply && $this->crontab_frequency && $this->crontab_frequency != '* * * * *') {
+    if ($this->crontab_apply && $this->crontab_frequency) {
       // Get current datetime for comparison
       $now = CRM_Utils_Date::currentDBDate();
 
