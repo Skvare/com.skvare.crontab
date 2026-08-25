@@ -14,11 +14,9 @@
     <url desc="Support">https://github.com/Skvare/com.skvare.crontab</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate>2026-02-11</releaseDate>
-  <version>2.3</version>
+  <releaseDate>2026-08-25</releaseDate>
+  <version>2.4</version>
   <compatibility>
-    <ver>5.81</ver>
-    <ver>6.4</ver>
     <ver>6.10</ver>
   </compatibility>
   <comments>Use Linux crontab-like expressions for scheduled jobs.</comments>
