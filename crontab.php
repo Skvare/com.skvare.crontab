@@ -335,8 +335,9 @@ function crontab_civicrm_postProcess($formName, &$form) {
   }
 }
 
-/*
-function crontab_civicrm_cron($jobManager) {
-  $jobManager->jobs = CRM_Crontab_Utils::_getJobs();
+/**
+ * Implements hook_civicrm_container().
+ */
+function crontab_civicrm_container($container) {
+  $container->setParameter('civicrm.scheduled_job.class', 'CRM_Crontab_ScheduledJob');
 }
-*/
